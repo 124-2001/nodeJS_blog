@@ -1,33 +1,36 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
 const app = express();
-const port = 3001;
+const port = 3005;
+const postRouter = require("./routers/posts.router");
+const tagRouter = require("./routers/tags.router");
+const roleRouter = require("./routers/roles.router");
+const userRouter = require("./routers/users.router");
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.use(express.json());
+app.use(
+    express.urlencoded({
+      extended: true,
+    })
+);
+
+app.get("/", (req, res) => {
+  res.json({ message: "ok" });
+});
+
+app.use("/api/posts", postRouter);
+app.use("/api/tags", tagRouter);
+app.use("/api/roles", roleRouter);
+app.use("/api/users", userRouter);
+
+/* Error handler middleware */
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  console.error(err.message, err.stack);
+  res.status(statusCode).json({ message: err.message });
+
+  return;
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening at http://localhost:${port}`);
 });
-
-const postsRoutes = require('./posts');
-const tagsRoutes = require('./tags');
-const usersRoutes = require('./user');
-const rolesRoutes = require('./roles');
-
-app.use(bodyParser.json());
-
-// Sử dụng tuyến đường cho bảng posts
-app.use(postsRoutes);
-
-// Sử dụng tuyến đường cho bảng tags
-app.use(tagsRoutes);
-
-// Sử dụng tuyến đường cho bảng user
-app.use(usersRoutes);
-
-// Sử dụng tuyến đường cho bảng roles
-app.use(rolesRoutes);
-
-
