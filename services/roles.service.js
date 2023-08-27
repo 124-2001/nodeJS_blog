@@ -6,8 +6,6 @@ async function getMultipleRoles() {
     `SELECT id, name, created_by, created_date, last_modified_by, last_modified_date
     FROM roles`
   );
-  // const data = emptyOrRows(rows);
-
   return rows;
 }
 

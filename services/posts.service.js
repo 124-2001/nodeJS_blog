@@ -1,14 +1,14 @@
 const db = require("./db.service");
-const helper = require("../page");
+const pagging = require("../page");
 const config = require("../config");
 
 async function getMultiple(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
+  const offset = pagging.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT id, title, content, created, creator, description, is_public, updated, updater, view_count
     FROM posts LIMIT ${offset},${config.listPerPage}`
   );
-  const data = helper.emptyOrRows(rows);
+  const data = pagging.emptyOrRows(rows);
   const meta = { page };
 
   return {

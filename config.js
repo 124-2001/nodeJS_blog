@@ -1,12 +1,11 @@
-//config database and page number
-const config ={
-    db:{
-        host:'localhost',
-        port:'3306',
-        user:'root',
-        database:'blog'
+const config = {
+    db: {
+      host: 'localhost',
+      port: '3306',
+      user: 'root', /* MySQL User */
+      database: 'blog' /* MySQL Database */
     },
-    listPerPage :2
-};
-module.exports = config;
-
+    listPerPage: 10,
+  };
+  
+  module.exports = config;
