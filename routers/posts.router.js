@@ -46,4 +46,16 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+//GET tags in a post by ID
+router.get("/get-tags/:id",async(req,res,next)=>{
+  try{
+    const result = await postService.getTagsInPost(req.params.id);
+    res.json(result);
+  }
+  catch(err){
+    console.error(`Error while getting tags: ${err.message}`);
+    next(err);
+  }
+})
+
 module.exports = router;

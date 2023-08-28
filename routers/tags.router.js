@@ -46,4 +46,16 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+//GET posts in a tag by ID
+router.get("/get-posts/:id",async(req,res,next)=>{
+  try{
+    const result = await tagService.getPostsInTag(req.params.id);
+    res.json(result);
+  }
+  catch(err){
+    console.error(`Error while getting posts: ${err.message}`);
+    next(err);
+  }
+});
+
 module.exports = router;

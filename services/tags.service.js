@@ -1,5 +1,5 @@
 const db = require("./db.service");
-const paging = require("../page");
+const paging = require("../paging.helper");
 const config = require("../config");
 
 async function getMultipleTags(page = 1) {
@@ -66,10 +66,20 @@ async function removeTag(id) {
 
   return { message };
 }
+async function getPostsInTag(id){
+  const rows = await db.query(
+    `SELECT posts.id, posts.title,posts.content
+    FROM post_tags
+    JOIN posts ON post_tags.post_id = posts.id
+    WHERE post_tags.tag_id=${id}`
+  )
+  return rows;  
+}
 
 module.exports = {
   getMultipleTags,
   createTag,
   updateTag,
   removeTag,
+  getPostsInTag,
 };

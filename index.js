@@ -5,6 +5,7 @@ const postRouter = require("./routers/posts.router");
 const tagRouter = require("./routers/tags.router");
 const roleRouter = require("./routers/roles.router");
 const userRouter = require("./routers/users.router");
+const authRouter = require("./routers/auth.router");
 
 app.use(express.json());
 app.use(
@@ -21,6 +22,7 @@ app.use("/api/posts", postRouter);
 app.use("/api/tags", tagRouter);
 app.use("/api/roles", roleRouter);
 app.use("/api/users", userRouter);
+app.use("/auth", authRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

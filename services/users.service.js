@@ -1,5 +1,5 @@
 const db = require("./db.service");
-const paging = require("../page");
+const paging = require("../paging.helper");
 const config = require("../config");
 
 async function getMultipleUser(page =1){
