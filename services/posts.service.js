@@ -18,12 +18,13 @@ async function getMultiple(page = 1) {
 }
 
 async function create(param) {
+  const currentTime = new Date(); 
   const result = await db.query(
     `INSERT INTO posts 
-    (title, content, created, creator, description, is_public, updated, updater, view_count) 
+    (title, content, created, creator, description, is_public, view_count) 
     VALUES 
-    ("${param.title}", "${param.content}", "${param.created}", "${param.creator}", "${param.description}", 
-    ${param.is_public ? 1 : 0}, "${param.updated}", "${param.updater}", ${param.view_count})`
+    (?, ?, ?, ?, ?, ?, ?)`,
+    [param.title, param.content, currentTime, param.creator, param.description, param.is_public ? 1 : 0, 0]
   );
 
   let message = "Error in creating post";
@@ -36,13 +37,14 @@ async function create(param) {
 }
 
 async function update(id, param) {
+  const currentUpdateTime = new Date(); 
   const result = await db.query(
     `UPDATE posts 
-    SET title="${param.title}", content="${param.content}", created="${param.created}", 
-    creator="${param.creator}", description="${param.description}", 
-    is_public=${param.is_public ? 1 : 0}, updated="${param.updated}", updater="${param.updater}", 
-    view_count=${param.view_count}
-    WHERE id=${id}`
+    SET title=?, content=?, 
+    description=?, is_public=?, 
+    updated=?, updater=?, view_count=?
+    WHERE id=?`,
+    [param.title, param.content, param.description, param.is_public ? 1 : 0, currentUpdateTime, param.updater, param.view_count, id]
   );
 
   let message = "Error in updating post";
@@ -53,6 +55,7 @@ async function update(id, param) {
 
   return { message };
 }
+
 
 async function remove(id) {
   const result = await db.query(
@@ -68,7 +71,7 @@ async function remove(id) {
   return { message };
 }
 
-async function getTagsInPost(id,page =1){
+async function getTagsInPost(id){
   const rows = await db.query(
     `SELECT tags.id, tags.name
     FROM post_tags
@@ -83,5 +86,5 @@ module.exports = {
   create,
   update,
   remove,
-  getTagsInPost
+  getTagsInPost,
 };
